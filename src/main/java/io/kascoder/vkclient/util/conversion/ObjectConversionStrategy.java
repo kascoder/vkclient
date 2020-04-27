@@ -2,7 +2,7 @@ package io.kascoder.vkclient.util.conversion;
 
 import lombok.NonNull;
 
-public class DefaultConversionStrategy implements ConversionStrategy<Object> {
+public class ObjectConversionStrategy implements ConversionStrategy<Object> {
     @Override
     public String convert(@NonNull Object o) {
         return o.toString();
