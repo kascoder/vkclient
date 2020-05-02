@@ -1,8 +1,7 @@
-// objects.json[messages_message_attachment_type]
-
 package io.kascoder.vkclient.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +9,7 @@ import io.kascoder.vkclient.domain.IValue;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@ApiObjectDefinition(name = "messages_message_attachment_type")
 public enum  AttachmentType implements IValue {
     PHOTO("photo"),
     VIDEO("video"),

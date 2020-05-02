@@ -19,8 +19,8 @@ public class Peer {
     @JsonProperty("type")
     private Type type;
 
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public enum Type {
         USER("user"),
         CHAT("chat"),

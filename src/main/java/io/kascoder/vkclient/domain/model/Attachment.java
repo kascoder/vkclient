@@ -1,14 +1,14 @@
-// objects.json [messages_message_attachment]
-
 package io.kascoder.vkclient.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@ApiObjectDefinition(name = "messages_message_attachment")
 @JsonIgnoreProperties(ignoreUnknown = true) // market, link, graffiti, gift, market_market_album, sticker, wall, wall_reply
 public class Attachment {
     @JsonProperty("type")

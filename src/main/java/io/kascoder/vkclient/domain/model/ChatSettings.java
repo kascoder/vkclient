@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatSettings {
-    @JsonProperty("members_count")
-    private Integer memberCount;
     @JsonProperty("title")
     private String title;
+    @JsonProperty("members_count")
+    private Integer memberCount;
 }

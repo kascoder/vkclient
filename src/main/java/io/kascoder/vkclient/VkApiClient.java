@@ -3,14 +3,15 @@ package io.kascoder.vkclient;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import io.kascoder.vkclient.oauth.OAuth;
 import io.kascoder.vkclient.oauth.OAuthError;
 import io.kascoder.vkclient.oauth.OAuthResponse;
 import io.kascoder.vkclient.util.DefaultApiParams;
 import io.kascoder.vkclient.util.HttpUtils;
 import io.kascoder.vkclient.util.ParameterBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,20 +19,24 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @AllArgsConstructor
 public class VkApiClient {
-    @Getter private final String accessToken;
-    @Getter private final Integer userId;
+    @Getter
+    @NonNull
+    private final String accessToken;
+    @Getter
+    @NonNull
+    private final Integer userId;
+    @NonNull
     private final HttpClient httpClient;
 
     public VkApiClient(String accessToken, Integer userId) {
         this(accessToken, userId, HttpClient.newHttpClient());
     }
 
-    public <T> CompletableFuture<T> executeRequest(io.kascoder.vkclient.VkApiRequest<T> request) {
+    public <T> CompletableFuture<T> executeRequest(@NonNull VkApiRequest<T> request) {
         var method = request.getHttpMethod();
         var vkAPiMethod = request.getVkAPiMethod();
         var vkApiQuery = request.getQuery();
@@ -49,14 +54,11 @@ public class VkApiClient {
                 .thenApply(body -> parseMethodResponse(body, request.getClazz()));
     }
 
-    public static io.kascoder.vkclient.VkApiClient byOAuth(OAuth authData) {
+    public static VkApiClient byOAuth(OAuth authData) {
         return byOAuth(HttpClient.newHttpClient(), authData);
     }
 
-    public static io.kascoder.vkclient.VkApiClient byOAuth(HttpClient httpClient, OAuth authData) {
-        Objects.requireNonNull(httpClient);
-        Objects.requireNonNull(authData);
-
+    public static VkApiClient byOAuth(@NonNull HttpClient httpClient, @NonNull OAuth authData) {
         var httpRequest = HttpRequest.newBuilder(URI.create(DefaultApiParams.OAUTH_URL))
                 .POST(HttpUtils.ofFormData(ParameterBuilder.buildParamMap(authData)))
                 .build();
@@ -70,12 +72,12 @@ public class VkApiClient {
 
         var response = parseOAuthResponse(httpResponse.body());
 
-        return new io.kascoder.vkclient.VkApiClient(response.getAccessToken(), response.getUserId(), httpClient);
+        return new VkApiClient(response.getAccessToken(), response.getUserId(), httpClient);
     }
 
     private static OAuthResponse parseOAuthResponse(String response) {
-        var mapper = new ObjectMapper();
         try {
+            var mapper = new ObjectMapper();
             JsonNode jsonNode = mapper.readTree(response);
             var accessToken = jsonNode.get("access_token");
             if (accessToken == null) {
@@ -91,19 +93,19 @@ public class VkApiClient {
     }
 
     private <T> T parseMethodResponse(String response, Class<T> clazz) {
-        var mapper = new ObjectMapper();
-
+        VkApiResponse<T> vkApiResponse;
         try {
+            var mapper = new ObjectMapper();
             JavaType type = mapper.getTypeFactory().constructParametricType(VkApiResponse.class, clazz);
-            VkApiResponse<T> vkApiResponse = mapper.readValue(response, type);
-
-            if (vkApiResponse.getError() != null) {
-                throw vkApiResponse.getError();
-            }
-
-            return vkApiResponse.getResponse();
+            vkApiResponse = mapper.readValue(response, type);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+
+        if (vkApiResponse.getError() != null) {
+            throw vkApiResponse.getError();
+        }
+
+        return vkApiResponse.getResponse();
     }
 }
