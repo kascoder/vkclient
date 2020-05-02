@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiObjectDefinition(name = "messages_message_attachment")
-@JsonIgnoreProperties(ignoreUnknown = true) // market, link, graffiti, gift, market_market_album, sticker, wall, wall_reply
+@JsonIgnoreProperties(ignoreUnknown = true) // market, graffiti, gift, market_market_album, sticker, wall, wall_reply
 public class Attachment {
     @JsonProperty("type")
     private AttachmentType type;
@@ -23,4 +23,6 @@ public class Attachment {
     private Photo photo;
     @JsonProperty("video")
     private Video video;
+    @JsonProperty("link")
+    private Link link;
 }
