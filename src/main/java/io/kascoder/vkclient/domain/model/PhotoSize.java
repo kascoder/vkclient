@@ -1,10 +1,9 @@
-// objects.json[photos_photo_sizes]
-
 package io.kascoder.vkclient.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@ApiObjectDefinition(name = "photos_photo_sizes")
 public class PhotoSize {
     @JsonProperty("url")
     private String url;
@@ -22,9 +22,9 @@ public class PhotoSize {
     @JsonProperty("width")
     private Integer width;
 
-    // objects.json[photos_photo_sizes_type]
-    @AllArgsConstructor
     @Getter
+    @AllArgsConstructor
+    @ApiObjectDefinition(name = "photos_photo_sizes_type")
     public enum Type {
         s("s"),
         m("m"),
