@@ -8,8 +8,6 @@ import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @ApiObjectDefinition(name = "video_video")
@@ -89,7 +87,7 @@ public class Video {
     @JsonDeserialize(using = BooleanIntDeserializer.class)
     private boolean canAttachLink;
     @JsonProperty("files")
-    private List<File> files;
+    private File file;
 
     @Getter
     @Setter
