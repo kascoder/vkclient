@@ -56,6 +56,14 @@ public class MessagesApi {
                 .build();
     }
 
+    public VkApiRequest<DeleteMessageResponse> delete(@NonNull DeleteQuery query) {
+        return VkApiRequest.<DeleteMessageResponse>builder()
+                .vkAPiMethod(Methods.delete)
+                .query(query)
+                .clazz(DeleteMessageResponse.class)
+                .build();
+    }
+
     @AllArgsConstructor
     enum Methods implements VkAPiMethod {
         getConversations("getConversations"),
@@ -63,7 +71,8 @@ public class MessagesApi {
         getByConversationMessageId("getByConversationMessageId"),
         getHistory("getHistory"),
         getById("getById"),
-        search("search");
+        search("search"),
+        delete("delete");
 
         private final String path;
 
