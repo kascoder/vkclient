@@ -7,9 +7,11 @@ import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ApiObjectDefinition(name = "photos_photo_sizes")
 public class PhotoSize {

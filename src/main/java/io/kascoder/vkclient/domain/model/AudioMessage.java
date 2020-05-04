@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true) // waveform
 @ApiObjectDefinition(name = "messages_audio_message")
 public class AudioMessage {

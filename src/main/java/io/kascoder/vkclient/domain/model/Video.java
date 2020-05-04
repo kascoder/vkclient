@@ -7,9 +7,11 @@ import io.kascoder.vkclient.util.BooleanIntDeserializer;
 import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @ApiObjectDefinition(name = "video_video")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Video {
@@ -91,6 +93,7 @@ public class Video {
 
     @Getter
     @Setter
+    @ToString
     public static class File {
         @JsonProperty("external")
         private String externalUrl;

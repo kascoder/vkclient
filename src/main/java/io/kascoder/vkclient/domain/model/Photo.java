@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @ApiObjectDefinition(name = "photos_photo")
 @JsonIgnoreProperties(ignoreUnknown = true) // post_id, long, lat, images
 public class Photo {

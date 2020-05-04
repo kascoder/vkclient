@@ -8,11 +8,13 @@ import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Arrays;
 
 @Getter
 @Setter
+@ToString
 @ApiObjectDefinition(name = "docs_doc")
 @JsonIgnoreProperties(ignoreUnknown = true) // preview
 public class Document {

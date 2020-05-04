@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import io.kascoder.vkclient.domain.RequestParameter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
 public class Error extends RuntimeException {
     @JsonProperty("error_code")
     private int errorCode;

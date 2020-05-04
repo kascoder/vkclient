@@ -3,13 +3,11 @@ package io.kascoder.vkclient.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Peer {
     @JsonProperty("id")
@@ -20,6 +18,7 @@ public class Peer {
     private Type type;
 
     @Getter
+    @ToString
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public enum Type {
         USER("user"),

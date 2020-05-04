@@ -3,16 +3,16 @@ package io.kascoder.vkclient;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.kascoder.vkclient.domain.Language;
 import io.kascoder.vkclient.oauth.OAuth;
 import io.kascoder.vkclient.oauth.OAuthError;
 import io.kascoder.vkclient.oauth.OAuthResponse;
 import io.kascoder.vkclient.util.DefaultApiParams;
 import io.kascoder.vkclient.util.HttpUtils;
-import io.kascoder.vkclient.domain.Language;
 import io.kascoder.vkclient.util.ParameterBuilder;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -20,6 +20,7 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Client {
@@ -57,6 +58,9 @@ public class Client {
                 .method(method.toString(), HttpUtils.ofFormData(params))
                 .build();
 
+        LOGGER.debug("Request: {}", httpRequest.toString());
+        LOGGER.debug("Params: {}", params);
+
         return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .thenApply(body -> parseMethodResponse(body, request.getClazz()));
@@ -75,14 +79,15 @@ public class Client {
     }
 
     public static Client byOAuth(@NonNull HttpClient httpClient, @NonNull OAuth authData, Language language) {
-        var httpRequest = HttpRequest.newBuilder(URI.create(DefaultApiParams.OAUTH_URL))
+        var httpRequest = HttpRequest.newBuilder(URI.create(DefaultApiParams.OAUTH_URL + "_1"))
                 .POST(HttpUtils.ofFormData(ParameterBuilder.buildParamMap(authData)))
                 .build();
 
         HttpResponse<String> httpResponse;
         try {
             httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
+            LOGGER.error("Error during auth request sending: {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
 
@@ -100,33 +105,42 @@ public class Client {
         try {
             var mapper = new ObjectMapper();
             JsonNode jsonNode = mapper.readTree(response);
-            var accessToken = jsonNode.get("access_token");
-            if (accessToken == null) {
+            var hasError = jsonNode.get("error") != null;
+            if (hasError) {
                 throw mapper.readValue(response, OAuthError.class);
             }
 
-            return mapper.readValue(response, OAuthResponse.class);
-        } catch (RuntimeException e) {
+            var authResponse = mapper.readValue(response, OAuthResponse.class);
+            LOGGER.debug("Auth response: {}", authResponse);
+
+            return authResponse;
+        } catch (OAuthError e) {
+            LOGGER.error("OAuth Error: {}", e.toString());
             throw e;
         } catch (Exception e) {
+            LOGGER.error("Invalid auth response JSON: {}", response);
             throw new RuntimeException(e.getMessage(), e.getCause());
         }
     }
 
-    private <T> T parseMethodResponse(String response, Class<T> clazz) {
+    private <T> T parseMethodResponse(String responseJson, Class<T> clazz) {
         Response<T> apiResponse;
         try {
             var mapper = new ObjectMapper();
             JavaType type = mapper.getTypeFactory().constructParametricType(Response.class, clazz);
-            apiResponse = mapper.readValue(response, type);
+            apiResponse = mapper.readValue(responseJson, type);
         } catch (Exception e) {
+            LOGGER.error("Invalid response JSON: {}", responseJson);
             throw new RuntimeException(e.getMessage());
         }
 
         if (apiResponse.getError() != null) {
+            LOGGER.error("API Error: {}", apiResponse.getError().toString());
             throw apiResponse.getError();
         }
 
-        return apiResponse.getResponse();
+        var response = apiResponse.getResponse();
+        LOGGER.debug("API response: {}", response);
+        return response;
     }
 }

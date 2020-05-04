@@ -6,8 +6,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import io.kascoder.vkclient.domain.IValue;
+import lombok.ToString;
 
 @Getter
+@ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ApiObjectDefinition(name = "messages_message_attachment_type")
 public enum  AttachmentType implements IValue {

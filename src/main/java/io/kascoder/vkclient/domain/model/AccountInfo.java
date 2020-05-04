@@ -7,9 +7,11 @@ import io.kascoder.vkclient.util.BooleanIntDeserializer;
 import io.kascoder.vkclient.domain.Language;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountInfo {
     @JsonProperty("country")
