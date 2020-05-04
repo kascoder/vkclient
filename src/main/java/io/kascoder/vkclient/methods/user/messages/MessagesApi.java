@@ -1,6 +1,6 @@
 package io.kascoder.vkclient.methods.user.messages;
 
-import io.kascoder.vkclient.Request;
+import io.kascoder.vkclient.VkApiRequest;
 import io.kascoder.vkclient.methods.Method;
 import io.kascoder.vkclient.methods.user.messages.query.*;
 import io.kascoder.vkclient.methods.user.messages.response.*;
@@ -8,58 +8,58 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 public class MessagesApi {
-    public Request<ConversationListResponse> getConversations(@NonNull GetConversationsQuery query) {
-        return Request.<ConversationListResponse>builder()
+    public VkApiRequest<ConversationListResponse> getConversations(@NonNull GetConversationsQuery query) {
+        return VkApiRequest.<ConversationListResponse>builder()
                 .method(Methods.getConversations)
-                .query(query)
+                .vkApiQuery(query)
                 .clazz(ConversationListResponse.class)
                 .build();
     }
 
-    public Request<HistoryAttachmentListResponse> getHistoryAttachments(@NonNull GetHistoryAttachmentsQuery query) {
-        return Request.<HistoryAttachmentListResponse>builder()
+    public VkApiRequest<HistoryAttachmentListResponse> getHistoryAttachments(@NonNull GetHistoryAttachmentsQuery query) {
+        return VkApiRequest.<HistoryAttachmentListResponse>builder()
                 .method(Methods.getHistoryAttachments)
-                .query(query)
+                .vkApiQuery(query)
                 .clazz(HistoryAttachmentListResponse.class)
                 .build();
     }
 
-    public Request<HistoryMessageListResponse> getHistory(@NonNull GetHistoryQuery query) {
-        return Request.<HistoryMessageListResponse>builder()
+    public VkApiRequest<HistoryMessageListResponse> getHistory(@NonNull GetHistoryQuery query) {
+        return VkApiRequest.<HistoryMessageListResponse>builder()
                 .method(Methods.getHistory)
-                .query(query)
+                .vkApiQuery(query)
                 .clazz(HistoryMessageListResponse.class)
                 .build();
     }
 
-    public Request<ConversationMessageListResponse> getByConversationMessageId(@NonNull GetByConversationMessageIdQuery query) {
-        return Request.<ConversationMessageListResponse>builder()
+    public VkApiRequest<ConversationMessageListResponse> getByConversationMessageId(@NonNull GetByConversationMessageIdQuery query) {
+        return VkApiRequest.<ConversationMessageListResponse>builder()
                 .method(Methods.getByConversationMessageId)
-                .query(query)
+                .vkApiQuery(query)
                 .clazz(ConversationMessageListResponse.class)
                 .build();
     }
 
-    public Request<MessageListResponse> getById(@NonNull GetByIdQuery query) {
-        return Request.<MessageListResponse>builder()
+    public VkApiRequest<MessageListResponse> getById(@NonNull GetByIdQuery query) {
+        return VkApiRequest.<MessageListResponse>builder()
                 .method(Methods.getById)
-                .query(query)
+                .vkApiQuery(query)
                 .clazz(MessageListResponse.class)
                 .build();
     }
 
-    public Request<MessageListResponse> search(@NonNull SearchQuery query) {
-        return Request.<MessageListResponse>builder()
+    public VkApiRequest<MessageListResponse> search(@NonNull SearchQuery query) {
+        return VkApiRequest.<MessageListResponse>builder()
                 .method(Methods.search)
-                .query(query)
+                .vkApiQuery(query)
                 .clazz(MessageListResponse.class)
                 .build();
     }
 
-    public Request<DeleteMessageResponse> delete(@NonNull DeleteQuery query) {
-        return Request.<DeleteMessageResponse>builder()
+    public VkApiRequest<DeleteMessageResponse> delete(@NonNull DeleteQuery query) {
+        return VkApiRequest.<DeleteMessageResponse>builder()
                 .method(Methods.delete)
-                .query(query)
+                .vkApiQuery(query)
                 .clazz(DeleteMessageResponse.class)
                 .build();
     }

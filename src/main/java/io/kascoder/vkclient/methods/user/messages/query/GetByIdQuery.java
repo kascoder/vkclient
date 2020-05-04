@@ -2,7 +2,7 @@ package io.kascoder.vkclient.methods.user.messages.query;
 
 import lombok.*;
 import io.kascoder.vkclient.methods.ObjectField;
-import io.kascoder.vkclient.methods.Query;
+import io.kascoder.vkclient.methods.VkApiQuery;
 import io.kascoder.vkclient.util.annotation.Param;
 import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionConversionStrategy;
 import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Value
 @Builder
-public class GetByIdQuery implements Query {
+public class GetByIdQuery implements VkApiQuery {
     @Param(name = "extended")
     boolean extended;
     @Param(name = "preview_length")

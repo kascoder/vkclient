@@ -2,7 +2,7 @@ package io.kascoder.vkclient.methods.user.messages.query;
 
 import io.kascoder.vkclient.domain.model.AttachmentType;
 import io.kascoder.vkclient.methods.ObjectField;
-import io.kascoder.vkclient.methods.Query;
+import io.kascoder.vkclient.methods.VkApiQuery;
 import io.kascoder.vkclient.util.annotation.Param;
 import io.kascoder.vkclient.util.conversion.custom.IValueConversionStrategy;
 import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Value
 @Builder
-public class GetHistoryAttachmentsQuery implements Query {
+public class GetHistoryAttachmentsQuery implements VkApiQuery {
     @Param(name = "peer_id")
     int peerId;
     @NonNull

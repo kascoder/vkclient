@@ -23,9 +23,12 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Client {
+public class VkApiClient {
 
     private static final HttpClient DEFAULT_HTTP_CLIENT = HttpClient.newHttpClient();
+    private static final String ACCESS_TOKEN_PARAM_NAME = "access_token";
+    private static final String API_VERSION_PARAM_NAME = "v";
+    private static final String LANGUAGE_PARAM_NAME = "lang";
 
     @Getter
     @NonNull
@@ -38,20 +41,20 @@ public class Client {
     @Setter
     private Language language;
 
-    public <T> CompletableFuture<T> executeRequest(@NonNull Request<T> request) {
-        return executeRequest(request, language);
+    public <T> CompletableFuture<T> executeRequest(@NonNull VkApiRequest<T> vkApiRequest) {
+        return executeRequest(vkApiRequest, language);
     }
 
-    public <T> CompletableFuture<T> executeRequest(@NonNull Request<T> request, Language language) {
-        var method = request.getHttpMethod();
-        var vkAPiMethod = request.getMethod();
-        var vkApiQuery = request.getQuery();
+    public <T> CompletableFuture<T> executeRequest(@NonNull VkApiRequest<T> vkApiRequest, Language language) {
+        var method = vkApiRequest.getHttpMethod();
+        var vkAPiMethod = vkApiRequest.getMethod();
+        var vkApiQuery = vkApiRequest.getVkApiQuery();
 
         var params = new HashMap<>(ParameterBuilder.buildParamMap(vkApiQuery));
-        params.put("access_token", accessToken);
-        params.put("v", DefaultApiParams.API_VERSION);
+        params.put(ACCESS_TOKEN_PARAM_NAME, accessToken);
+        params.put(API_VERSION_PARAM_NAME, DefaultApiParams.API_VERSION);
         if (language != null) {
-            params.put("lang", language.getCode());
+            params.put(LANGUAGE_PARAM_NAME, language.getCode());
         }
 
         var httpRequest = HttpRequest.newBuilder(URI.create(DefaultApiParams.API_URL + vkAPiMethod.path()))
@@ -63,24 +66,29 @@ public class Client {
 
         return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
-                .thenApply(body -> parseMethodResponse(body, request.getClazz()));
+                .thenApply(body -> parseMethodResponse(body, vkApiRequest.getClazz()));
     }
 
-    public static Client byOAuth(OAuth authData) {
+    public static VkApiClient byOAuth(OAuth authData) {
         return byOAuth(DEFAULT_HTTP_CLIENT, authData, null);
     }
 
-    public static Client byOAuth(OAuth authData, Language language) {
+    public static VkApiClient byOAuth(OAuth authData, Language language) {
         return byOAuth(DEFAULT_HTTP_CLIENT, authData, language);
     }
 
-    public static Client byOAuth(HttpClient httpClient, @NonNull OAuth authData) {
+    public static VkApiClient byOAuth(HttpClient httpClient, @NonNull OAuth authData) {
         return byOAuth(httpClient, authData, null);
     }
 
-    public static Client byOAuth(@NonNull HttpClient httpClient, @NonNull OAuth authData, Language language) {
-        var httpRequest = HttpRequest.newBuilder(URI.create(DefaultApiParams.OAUTH_URL + "_1"))
-                .POST(HttpUtils.ofFormData(ParameterBuilder.buildParamMap(authData)))
+    public static VkApiClient byOAuth(@NonNull HttpClient httpClient, @NonNull OAuth authData, Language language) {
+        var params = ParameterBuilder.buildParamMap(authData);
+        if (language != null) {
+            params.put(LANGUAGE_PARAM_NAME, language.getCode());
+        }
+
+        var httpRequest = HttpRequest.newBuilder(URI.create(DefaultApiParams.OAUTH_URL))
+                .POST(HttpUtils.ofFormData(params))
                 .build();
 
         HttpResponse<String> httpResponse;
@@ -93,7 +101,7 @@ public class Client {
 
         var response = parseOAuthResponse(httpResponse.body());
 
-        return Client.builder()
+        return VkApiClient.builder()
                 .accessToken(response.getAccessToken())
                 .userId(response.getUserId())
                 .httpClient(httpClient)

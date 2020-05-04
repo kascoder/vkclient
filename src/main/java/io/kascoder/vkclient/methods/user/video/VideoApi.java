@@ -1,6 +1,6 @@
 package io.kascoder.vkclient.methods.user.video;
 
-import io.kascoder.vkclient.Request;
+import io.kascoder.vkclient.VkApiRequest;
 import io.kascoder.vkclient.methods.Method;
 import io.kascoder.vkclient.methods.user.video.query.GetQuery;
 import io.kascoder.vkclient.methods.user.video.response.VideoListResponse;
@@ -8,10 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 public class VideoApi {
-    public Request<VideoListResponse> get(@NonNull GetQuery query) {
-        return Request.<VideoListResponse>builder()
+    public VkApiRequest<VideoListResponse> get(@NonNull GetQuery query) {
+        return VkApiRequest.<VideoListResponse>builder()
                 .method(Methods.get)
-                .query(query)
+                .vkApiQuery(query)
                 .clazz(VideoListResponse.class)
                 .build();
     }
