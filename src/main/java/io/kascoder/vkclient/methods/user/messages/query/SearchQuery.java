@@ -1,7 +1,7 @@
 package io.kascoder.vkclient.methods.user.messages.query;
 
 import io.kascoder.vkclient.methods.ObjectField;
-import io.kascoder.vkclient.methods.VkApiQuery;
+import io.kascoder.vkclient.methods.Query;
 import io.kascoder.vkclient.util.annotation.Param;
 import io.kascoder.vkclient.util.conversion.custom.LocalDateDDMMYYYYConversionStrategy;
 import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Value
 @Builder
-public class SearchQuery implements VkApiQuery {
+public class SearchQuery implements Query {
     @Param(name = "q")
     String q;
     @Param(name = "peer_id")

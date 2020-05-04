@@ -1,6 +1,6 @@
 package io.kascoder.vkclient.methods.user.video.query;
 
-import io.kascoder.vkclient.methods.VkApiQuery;
+import io.kascoder.vkclient.methods.Query;
 import io.kascoder.vkclient.util.VideoID;
 import io.kascoder.vkclient.util.annotation.Param;
 import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionConversionStrategy;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Value
 @Builder
-public class GetQuery implements VkApiQuery {
+public class GetQuery implements Query {
     @Param(name = "owner_id")
     Integer ownerId;
     @Param(name = "videos", strategy = ObjectCollectionConversionStrategy.class)

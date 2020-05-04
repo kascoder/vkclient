@@ -1,7 +1,7 @@
 package io.kascoder.vkclient.methods.user.messages.query;
 
 import io.kascoder.vkclient.methods.ObjectField;
-import io.kascoder.vkclient.methods.VkApiQuery;
+import io.kascoder.vkclient.methods.Query;
 import io.kascoder.vkclient.util.annotation.Param;
 import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionConversionStrategy;
 import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Value
 @Builder
-public class GetByConversationMessageIdQuery implements VkApiQuery {
+public class GetByConversationMessageIdQuery implements Query {
     @Param(name = "peer_id")
     int peerId;
     @Param(name = "extended")

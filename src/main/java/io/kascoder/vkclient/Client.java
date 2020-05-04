@@ -8,10 +8,9 @@ import io.kascoder.vkclient.oauth.OAuthError;
 import io.kascoder.vkclient.oauth.OAuthResponse;
 import io.kascoder.vkclient.util.DefaultApiParams;
 import io.kascoder.vkclient.util.HttpUtils;
+import io.kascoder.vkclient.util.Language;
 import io.kascoder.vkclient.util.ParameterBuilder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,8 +20,12 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
-@AllArgsConstructor
-public class VkApiClient {
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class Client {
+
+    private static final HttpClient DEFAULT_HTTP_CLIENT = HttpClient.newHttpClient();
+
     @Getter
     @NonNull
     private final String accessToken;
@@ -30,20 +33,25 @@ public class VkApiClient {
     @NonNull
     private final Integer userId;
     @NonNull
-    private final HttpClient httpClient;
+    @Builder.Default private final HttpClient httpClient = DEFAULT_HTTP_CLIENT;
+    @Setter
+    private Language language;
 
-    public VkApiClient(String accessToken, Integer userId) {
-        this(accessToken, userId, HttpClient.newHttpClient());
+    public <T> CompletableFuture<T> executeRequest(@NonNull Request<T> request) {
+        return executeRequest(request, language);
     }
 
-    public <T> CompletableFuture<T> executeRequest(@NonNull VkApiRequest<T> request) {
+    public <T> CompletableFuture<T> executeRequest(@NonNull Request<T> request, Language language) {
         var method = request.getHttpMethod();
-        var vkAPiMethod = request.getVkAPiMethod();
+        var vkAPiMethod = request.getMethod();
         var vkApiQuery = request.getQuery();
 
         var params = new HashMap<>(ParameterBuilder.buildParamMap(vkApiQuery));
         params.put("access_token", accessToken);
         params.put("v", DefaultApiParams.API_VERSION);
+        if (language != null) {
+            params.put("lang", language.getCode());
+        }
 
         var httpRequest = HttpRequest.newBuilder(URI.create(DefaultApiParams.API_URL + vkAPiMethod.path()))
                 .method(method.toString(), HttpUtils.ofFormData(params))
@@ -54,11 +62,19 @@ public class VkApiClient {
                 .thenApply(body -> parseMethodResponse(body, request.getClazz()));
     }
 
-    public static VkApiClient byOAuth(OAuth authData) {
-        return byOAuth(HttpClient.newHttpClient(), authData);
+    public static Client byOAuth(OAuth authData) {
+        return byOAuth(DEFAULT_HTTP_CLIENT, authData, null);
     }
 
-    public static VkApiClient byOAuth(@NonNull HttpClient httpClient, @NonNull OAuth authData) {
+    public static Client byOAuth(OAuth authData, Language language) {
+        return byOAuth(DEFAULT_HTTP_CLIENT, authData, language);
+    }
+
+    public static Client byOAuth(HttpClient httpClient, @NonNull OAuth authData) {
+        return byOAuth(httpClient, authData, null);
+    }
+
+    public static Client byOAuth(@NonNull HttpClient httpClient, @NonNull OAuth authData, Language language) {
         var httpRequest = HttpRequest.newBuilder(URI.create(DefaultApiParams.OAUTH_URL))
                 .POST(HttpUtils.ofFormData(ParameterBuilder.buildParamMap(authData)))
                 .build();
@@ -72,7 +88,12 @@ public class VkApiClient {
 
         var response = parseOAuthResponse(httpResponse.body());
 
-        return new VkApiClient(response.getAccessToken(), response.getUserId(), httpClient);
+        return Client.builder()
+                .accessToken(response.getAccessToken())
+                .userId(response.getUserId())
+                .httpClient(httpClient)
+                .language(language)
+                .build();
     }
 
     private static OAuthResponse parseOAuthResponse(String response) {
@@ -93,19 +114,19 @@ public class VkApiClient {
     }
 
     private <T> T parseMethodResponse(String response, Class<T> clazz) {
-        VkApiResponse<T> vkApiResponse;
+        Response<T> apiResponse;
         try {
             var mapper = new ObjectMapper();
-            JavaType type = mapper.getTypeFactory().constructParametricType(VkApiResponse.class, clazz);
-            vkApiResponse = mapper.readValue(response, type);
+            JavaType type = mapper.getTypeFactory().constructParametricType(Response.class, clazz);
+            apiResponse = mapper.readValue(response, type);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 
-        if (vkApiResponse.getError() != null) {
-            throw vkApiResponse.getError();
+        if (apiResponse.getError() != null) {
+            throw apiResponse.getError();
         }
 
-        return vkApiResponse.getResponse();
+        return apiResponse.getResponse();
     }
 }

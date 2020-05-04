@@ -1,6 +1,6 @@
 package io.kascoder.vkclient.methods.user.messages.query;
 
-import io.kascoder.vkclient.methods.VkApiQuery;
+import io.kascoder.vkclient.methods.Query;
 import io.kascoder.vkclient.util.annotation.Param;
 import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionConversionStrategy;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Value
 @Builder
-public class DeleteQuery implements VkApiQuery {
+public class DeleteQuery implements Query {
     @Param(name = "spam")
     boolean spam;
     @Param(name = "delete_for_all")

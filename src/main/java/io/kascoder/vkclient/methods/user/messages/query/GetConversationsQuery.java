@@ -3,7 +3,7 @@ package io.kascoder.vkclient.methods.user.messages.query;
 import lombok.*;
 import io.kascoder.vkclient.methods.ConversationFilter;
 import io.kascoder.vkclient.methods.ObjectField;
-import io.kascoder.vkclient.methods.VkApiQuery;
+import io.kascoder.vkclient.methods.Query;
 import io.kascoder.vkclient.util.annotation.Param;
 import io.kascoder.vkclient.util.conversion.custom.IValueConversionStrategy;
 import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Value
 @Builder
-public class GetConversationsQuery implements VkApiQuery {
+public class GetConversationsQuery implements Query {
     @Param(name = "offset")
     int offset;
     @Param(name = "count")

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class VkApiError extends RuntimeException {
+public class Error extends RuntimeException {
     @JsonProperty("error_code")
     private int errorCode;
     @JsonProperty("error_msg")

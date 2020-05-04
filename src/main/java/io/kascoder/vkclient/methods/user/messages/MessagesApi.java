@@ -1,71 +1,71 @@
 package io.kascoder.vkclient.methods.user.messages;
 
-import io.kascoder.vkclient.VkApiRequest;
-import io.kascoder.vkclient.methods.VkAPiMethod;
+import io.kascoder.vkclient.Request;
+import io.kascoder.vkclient.methods.Method;
 import io.kascoder.vkclient.methods.user.messages.query.*;
 import io.kascoder.vkclient.methods.user.messages.response.*;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 public class MessagesApi {
-    public VkApiRequest<ConversationListResponse> getConversations(@NonNull GetConversationsQuery query) {
-        return VkApiRequest.<ConversationListResponse>builder()
-                .vkAPiMethod(Methods.getConversations)
+    public Request<ConversationListResponse> getConversations(@NonNull GetConversationsQuery query) {
+        return Request.<ConversationListResponse>builder()
+                .method(Methods.getConversations)
                 .query(query)
                 .clazz(ConversationListResponse.class)
                 .build();
     }
 
-    public VkApiRequest<HistoryAttachmentListResponse> getHistoryAttachments(@NonNull GetHistoryAttachmentsQuery query) {
-        return VkApiRequest.<HistoryAttachmentListResponse>builder()
-                .vkAPiMethod(Methods.getHistoryAttachments)
+    public Request<HistoryAttachmentListResponse> getHistoryAttachments(@NonNull GetHistoryAttachmentsQuery query) {
+        return Request.<HistoryAttachmentListResponse>builder()
+                .method(Methods.getHistoryAttachments)
                 .query(query)
                 .clazz(HistoryAttachmentListResponse.class)
                 .build();
     }
 
-    public VkApiRequest<HistoryMessageListResponse> getHistory(@NonNull GetHistoryQuery query) {
-        return VkApiRequest.<HistoryMessageListResponse>builder()
-                .vkAPiMethod(Methods.getHistory)
+    public Request<HistoryMessageListResponse> getHistory(@NonNull GetHistoryQuery query) {
+        return Request.<HistoryMessageListResponse>builder()
+                .method(Methods.getHistory)
                 .query(query)
                 .clazz(HistoryMessageListResponse.class)
                 .build();
     }
 
-    public VkApiRequest<ConversationMessageListResponse> getByConversationMessageId(@NonNull GetByConversationMessageIdQuery query) {
-        return VkApiRequest.<ConversationMessageListResponse>builder()
-                .vkAPiMethod(Methods.getByConversationMessageId)
+    public Request<ConversationMessageListResponse> getByConversationMessageId(@NonNull GetByConversationMessageIdQuery query) {
+        return Request.<ConversationMessageListResponse>builder()
+                .method(Methods.getByConversationMessageId)
                 .query(query)
                 .clazz(ConversationMessageListResponse.class)
                 .build();
     }
 
-    public VkApiRequest<MessageListResponse> getById(@NonNull GetByIdQuery query) {
-        return VkApiRequest.<MessageListResponse>builder()
-                .vkAPiMethod(Methods.getById)
+    public Request<MessageListResponse> getById(@NonNull GetByIdQuery query) {
+        return Request.<MessageListResponse>builder()
+                .method(Methods.getById)
                 .query(query)
                 .clazz(MessageListResponse.class)
                 .build();
     }
 
-    public VkApiRequest<MessageListResponse> search(@NonNull SearchQuery query) {
-        return VkApiRequest.<MessageListResponse>builder()
-                .vkAPiMethod(Methods.search)
+    public Request<MessageListResponse> search(@NonNull SearchQuery query) {
+        return Request.<MessageListResponse>builder()
+                .method(Methods.search)
                 .query(query)
                 .clazz(MessageListResponse.class)
                 .build();
     }
 
-    public VkApiRequest<DeleteMessageResponse> delete(@NonNull DeleteQuery query) {
-        return VkApiRequest.<DeleteMessageResponse>builder()
-                .vkAPiMethod(Methods.delete)
+    public Request<DeleteMessageResponse> delete(@NonNull DeleteQuery query) {
+        return Request.<DeleteMessageResponse>builder()
+                .method(Methods.delete)
                 .query(query)
                 .clazz(DeleteMessageResponse.class)
                 .build();
     }
 
     @AllArgsConstructor
-    enum Methods implements VkAPiMethod {
+    enum Methods implements Method {
         getConversations("getConversations"),
         getHistoryAttachments("getHistoryAttachments"),
         getByConversationMessageId("getByConversationMessageId"),

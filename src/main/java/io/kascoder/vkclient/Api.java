@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import io.kascoder.vkclient.methods.user.messages.MessagesApi;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class VkApiUser {
+public final class Api {
     public static final MessagesApi messages = new MessagesApi();
     public static final VideoApi video = new VideoApi();
 }
