@@ -8,7 +8,7 @@ import io.kascoder.vkclient.oauth.OAuthError;
 import io.kascoder.vkclient.oauth.OAuthResponse;
 import io.kascoder.vkclient.util.DefaultApiParams;
 import io.kascoder.vkclient.util.HttpUtils;
-import io.kascoder.vkclient.util.Language;
+import io.kascoder.vkclient.domain.Language;
 import io.kascoder.vkclient.util.ParameterBuilder;
 import lombok.*;
 
