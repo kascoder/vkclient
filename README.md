@@ -2,13 +2,13 @@
 ## Download
 ### Gradle
 ```
-compile 'io.github.kascoder:vkclient:0.1'
+compile 'io.github.kascoder:vkclient:0.3.1'
 ```
 ### Maven
 ```
 <dependency>
   <groupId>io.github.kascoder</groupId>
   <artifactId>vkclient</artifactId>
-  <version>0.1</version>
+  <version>0.3.1</version>
 </dependency>
 ```
