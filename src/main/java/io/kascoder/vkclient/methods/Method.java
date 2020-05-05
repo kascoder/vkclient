@@ -1,5 +1,5 @@
 package io.kascoder.vkclient.methods;
 
-public interface VkAPiMethod {
+public interface Method {
     String path();
 }

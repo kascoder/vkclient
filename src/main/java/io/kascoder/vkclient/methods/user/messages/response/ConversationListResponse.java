@@ -8,11 +8,13 @@ import io.kascoder.vkclient.domain.model.Community;
 import io.kascoder.vkclient.domain.model.Conversation;
 import io.kascoder.vkclient.domain.model.Message;
 import io.kascoder.vkclient.domain.model.User;
+import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ConversationListResponse {
     @JsonProperty("count")
@@ -28,6 +30,7 @@ public class ConversationListResponse {
 
     @Getter
     @Setter
+    @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Item {
         @JsonProperty("conversation")

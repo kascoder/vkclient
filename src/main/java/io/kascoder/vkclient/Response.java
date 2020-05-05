@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class VkApiResponse<T> {
+public class Response<T> {
     @JsonProperty("response")
     private T response;
     @JsonProperty("error")
-    private VkApiError error;
+    private Error error;
 }

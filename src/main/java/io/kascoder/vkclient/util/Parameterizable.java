@@ -1,4 +1,4 @@
 package io.kascoder.vkclient.util;
 
-public interface IParam {
+public interface Parameterizable {
 }

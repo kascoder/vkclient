@@ -3,9 +3,11 @@ package io.kascoder.vkclient.oauth;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class OAuthError extends RuntimeException {
     @JsonProperty("error")
     private String error;

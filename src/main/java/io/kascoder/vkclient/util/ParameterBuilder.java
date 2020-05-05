@@ -11,13 +11,13 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ParameterBuilder {
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> buildParamMap(IParam iParamObject) {
+    public static Map<String, Object> buildParamMap(Parameterizable parameterizableObject) {
         var params = new HashMap<String, Object>();
-        if (iParamObject == null) {
+        if (parameterizableObject == null) {
             return params;
         }
 
-        var iParamObjectClass = iParamObject.getClass();
+        var iParamObjectClass = parameterizableObject.getClass();
         for (var field : iParamObjectClass.getDeclaredFields()) {
             var paramAnnotation = field.getAnnotation(Param.class);
             if (paramAnnotation == null) {
@@ -28,7 +28,7 @@ public class ParameterBuilder {
             ConversionStrategy conversionStrategy;
             try {
                 field.setAccessible(true);
-                o = field.get(iParamObject);
+                o = field.get(parameterizableObject);
                 if (o == null) {
                     continue;
                 }

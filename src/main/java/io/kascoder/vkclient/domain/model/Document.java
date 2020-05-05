@@ -1,23 +1,27 @@
-// objects.json [docs_doc]
-
 package io.kascoder.vkclient.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Arrays;
 
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true) // owner_id, preview
+@ToString
+@ApiObjectDefinition(name = "docs_doc")
+@JsonIgnoreProperties(ignoreUnknown = true) // preview
 public class Document {
     @JsonProperty("id")
     private Integer id;
+    @JsonProperty("owner_id")
+    private Integer ownerId;
     @JsonProperty("title")
     private String title;
     @JsonProperty("type")
@@ -25,11 +29,13 @@ public class Document {
     @JsonProperty("url")
     private String url;
     @JsonProperty("date")
-    private Integer dateUnixTime;
+    private Integer date; // UnixTime
     @JsonProperty("access_key")
     private String accessKey;
     @JsonProperty("ext")
     private String extension;
+    @JsonProperty("size")
+    private Integer size; //bytes
 
     @AllArgsConstructor
     public enum Type {

@@ -1,15 +1,17 @@
-// objects.json [messages_audio_message]
-
 package io.kascoder.vkclient.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kascoder.vkclient.util.annotation.ApiObjectDefinition;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true) // duration, waveform
+@ToString
+@JsonIgnoreProperties(ignoreUnknown = true) // waveform
+@ApiObjectDefinition(name = "messages_audio_message")
 public class AudioMessage {
     @JsonProperty("id")
     private Integer id;
@@ -21,4 +23,6 @@ public class AudioMessage {
     private String oggUrl;
     @JsonProperty("owner_id")
     private Integer ownerId;
+    @JsonProperty("duration")
+    private Integer duration; // seconds
 }

@@ -17,9 +17,8 @@ import java.util.List;
 public class SearchQuery implements VkApiQuery {
     @Param(name = "q")
     String q;
-    @NonNull
     @Param(name = "peer_id")
-    Integer peerId;
+    int peerId;
     @NonNull
     @Param(name = "date", strategy = LocalDateDDMMYYYYConversionStrategy.class)
     LocalDate date;

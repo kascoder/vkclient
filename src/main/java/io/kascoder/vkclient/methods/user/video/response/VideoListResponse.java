@@ -1,10 +1,10 @@
-package io.kascoder.vkclient.methods.user.messages.response;
+package io.kascoder.vkclient.methods.user.video.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kascoder.vkclient.domain.model.Video;
 import lombok.Getter;
 import lombok.Setter;
-import io.kascoder.vkclient.domain.model.Message;
 import lombok.ToString;
 
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.List;
 @Setter
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HistoryMessageListResponse {
+public class VideoListResponse {
     @JsonProperty("count")
     private Integer total;
     @JsonProperty("items")
-    private List<Message> messages;
+    private List<Video> videoList;
 }
