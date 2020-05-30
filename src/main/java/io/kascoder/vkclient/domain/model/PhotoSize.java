@@ -28,16 +28,18 @@ public class PhotoSize {
     @AllArgsConstructor
     @ApiObjectDefinition(name = "photos_photo_sizes_type")
     public enum Type {
-        s("s"),
+        k("k"),
+        l("l"),
         m("m"),
-        x("x"),
         o("o"),
         p("p"),
         q("q"),
         r("r"),
+        s("s"),
+        w("w"),
+        x("x"),
         y("y"),
-        z("z"),
-        w("w");
+        z("z");
 
         @JsonValue
         private final String value;
