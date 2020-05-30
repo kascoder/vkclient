@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'io.github.kascoder'
-version '0.4'
+version '0.3.2'
 sourceCompatibility = 1.11
 
 repositories {
