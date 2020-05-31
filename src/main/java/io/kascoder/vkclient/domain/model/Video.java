@@ -94,6 +94,7 @@ public class Video {
     @Getter
     @Setter
     @ToString
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class File {
         @JsonProperty("external")
         private String externalUrl;
