@@ -15,7 +15,7 @@ public class DeleteQuery implements VkApiQuery {
     @Param(name = "spam")
     boolean spam;
     @Param(name = "delete_for_all")
-    private boolean deleteForAll;
+    boolean deleteForAll;
     @NonNull
     @Param(name = "message_ids", strategy = ObjectCollectionConversionStrategy.class)
     Set<Integer> messageIdSet;

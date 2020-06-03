@@ -64,6 +64,14 @@ public class MessagesApi {
                 .build();
     }
 
+    public VkApiRequest<ConversationInfoListResponse> getConversationsById(@NonNull GetConversationsByIdQuery query) {
+        return VkApiRequest.<ConversationInfoListResponse>builder()
+                .method(Methods.getConversationsById)
+                .vkApiQuery(query)
+                .clazz(ConversationInfoListResponse.class)
+                .build();
+    }
+
     @AllArgsConstructor
     enum Methods implements Method {
         getConversations("getConversations"),
@@ -72,7 +80,8 @@ public class MessagesApi {
         getHistory("getHistory"),
         getById("getById"),
         search("search"),
-        delete("delete");
+        delete("delete"),
+        getConversationsById("getConversationsById");
 
         private final String path;
 
