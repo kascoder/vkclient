@@ -56,6 +56,14 @@ public class MessagesApi {
                 .build();
     }
 
+    public VkApiRequest<ConversationInfoListResponse> searchConversations(@NonNull SearchConversationsQuery query) {
+        return VkApiRequest.<ConversationInfoListResponse>builder()
+                .method(Methods.searchConversations)
+                .vkApiQuery(query)
+                .clazz(ConversationInfoListResponse.class)
+                .build();
+    }
+
     public VkApiRequest<DeleteMessageResponse> delete(@NonNull DeleteQuery query) {
         return VkApiRequest.<DeleteMessageResponse>builder()
                 .method(Methods.delete)
@@ -80,6 +88,7 @@ public class MessagesApi {
         getHistory("getHistory"),
         getById("getById"),
         search("search"),
+        searchConversations("searchConversations"),
         delete("delete"),
         getConversationsById("getConversationsById");
 
