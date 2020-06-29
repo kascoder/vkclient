@@ -2,7 +2,7 @@ package io.kascoder.vkclient.util.conversion;
 
 import lombok.NonNull;
 
-public interface ConversionStrategy<T> {
+public interface RequestParameterConverter<T> {
     String convert(@NonNull T o);
 
     default String convert(int o) {

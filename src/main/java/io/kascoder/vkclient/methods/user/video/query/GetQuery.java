@@ -2,8 +2,9 @@ package io.kascoder.vkclient.methods.user.video.query;
 
 import io.kascoder.vkclient.methods.VkApiQuery;
 import io.kascoder.vkclient.util.VideoID;
-import io.kascoder.vkclient.util.annotation.Param;
-import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionConversionStrategy;
+import io.kascoder.vkclient.util.annotation.Converter;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionRequestParameterConverter;
 import lombok.Builder;
 import lombok.Value;
 
@@ -12,16 +13,17 @@ import java.util.Set;
 @Value
 @Builder
 public class GetQuery implements VkApiQuery {
-    @Param(name = "owner_id")
+    @RequestParameter(name = "owner_id")
     Integer ownerId;
-    @Param(name = "videos", strategy = ObjectCollectionConversionStrategy.class)
+    @RequestParameter(name = "videos")
+    @Converter(ObjectCollectionRequestParameterConverter.class)
     Set<VideoID> videoIdSet;
-    @Param(name = "album_id")
+    @RequestParameter(name = "album_id")
     Integer albumId;
-    @Param(name = "offset")
+    @RequestParameter
     int offset;
-    @Param(name = "count")
+    @RequestParameter
     @Builder.Default int count = 100; // max 200
-    @Param(name = "extended")
+    @RequestParameter
     boolean extended;
 }

@@ -2,9 +2,10 @@ package io.kascoder.vkclient.methods.user.messages.query;
 
 import io.kascoder.vkclient.methods.ObjectField;
 import io.kascoder.vkclient.methods.VkApiQuery;
-import io.kascoder.vkclient.util.annotation.Param;
-import io.kascoder.vkclient.util.conversion.custom.LocalDateDDMMYYYYConversionStrategy;
-import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
+import io.kascoder.vkclient.util.annotation.Converter;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
+import io.kascoder.vkclient.util.conversion.custom.LocalDateDDMMYYYYRequestParameterConverter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListRequestParameterConverter;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -15,21 +16,23 @@ import java.util.List;
 @Value
 @Builder
 public class SearchQuery implements VkApiQuery {
-    @Param(name = "q")
+    @RequestParameter
     String q;
-    @Param(name = "peer_id")
+    @RequestParameter(name = "peer_id")
     int peerId;
     @NonNull
-    @Param(name = "date", strategy = LocalDateDDMMYYYYConversionStrategy.class)
+    @RequestParameter
+    @Converter(LocalDateDDMMYYYYRequestParameterConverter.class)
     LocalDate date;
-    @Param(name = "offset")
+    @RequestParameter
     int offset;
-    @Param(name = "count")
+    @RequestParameter
     @Builder.Default int count = 20; // can not be more than 100
-    @Param(name = "extended")
+    @RequestParameter
     boolean extended;
-    @Param(name = "preview_length")
+    @RequestParameter(name = "preview_length")
     @Builder.Default Integer previewLength = 0;
-    @Param(name = "fields", strategy = ObjectFieldListConversionStrategy.class)
+    @RequestParameter
+    @Converter(ObjectFieldListRequestParameterConverter.class)
     List<ObjectField> fields;
 }

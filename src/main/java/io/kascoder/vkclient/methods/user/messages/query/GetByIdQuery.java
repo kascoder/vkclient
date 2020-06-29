@@ -1,11 +1,12 @@
 package io.kascoder.vkclient.methods.user.messages.query;
 
+import io.kascoder.vkclient.util.annotation.Converter;
 import lombok.*;
 import io.kascoder.vkclient.methods.ObjectField;
 import io.kascoder.vkclient.methods.VkApiQuery;
-import io.kascoder.vkclient.util.annotation.Param;
-import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionConversionStrategy;
-import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionRequestParameterConverter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListRequestParameterConverter;
 
 import java.util.List;
 import java.util.Set;
@@ -13,14 +14,16 @@ import java.util.Set;
 @Value
 @Builder
 public class GetByIdQuery implements VkApiQuery {
-    @Param(name = "extended")
+    @RequestParameter
     boolean extended;
-    @Param(name = "preview_length")
+    @RequestParameter(name = "preview_length")
     Integer previewLength;
-    @Param(name = "fields", strategy = ObjectFieldListConversionStrategy.class)
+    @RequestParameter
+    @Converter(ObjectFieldListRequestParameterConverter.class)
     List<ObjectField> fields;
     @NonNull
-    @Param(name = "message_ids", strategy = ObjectCollectionConversionStrategy.class)
+    @RequestParameter(name = "message_ids")
+    @Converter(ObjectCollectionRequestParameterConverter.class)
     Set<Integer> messageIdSet; // max 100, mandatory
 }
 

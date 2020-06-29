@@ -1,29 +1,32 @@
 package io.kascoder.vkclient.methods.user.messages.query;
 
+import io.kascoder.vkclient.util.annotation.Converter;
 import lombok.*;
 import io.kascoder.vkclient.methods.ConversationFilter;
 import io.kascoder.vkclient.methods.ObjectField;
 import io.kascoder.vkclient.methods.VkApiQuery;
-import io.kascoder.vkclient.util.annotation.Param;
-import io.kascoder.vkclient.util.conversion.custom.IValueConversionStrategy;
-import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
+import io.kascoder.vkclient.util.conversion.custom.IValueRequestParameterConverter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListRequestParameterConverter;
 
 import java.util.List;
 
 @Value
 @Builder
 public class GetConversationsQuery implements VkApiQuery {
-    @Param(name = "offset")
+    @RequestParameter
     int offset;
-    @Param(name = "count")
+    @RequestParameter
     @Builder.Default int count = 20;
-    @Param(name = "filter", strategy = IValueConversionStrategy.class)
+    @RequestParameter
+    @Converter(IValueRequestParameterConverter.class)
     @Builder.Default ConversationFilter filter = ConversationFilter.ALL;
-    @Param(name = "extended")
+    @RequestParameter
     boolean extended;
-    @Param(name = "start_message_id")
+    @RequestParameter(name = "start_message_id")
     Integer startMessageId;
-    @Param(name = "fields", strategy = ObjectFieldListConversionStrategy.class)
+    @RequestParameter
+    @Converter(ObjectFieldListRequestParameterConverter.class)
     List<ObjectField> fields;
 }
 

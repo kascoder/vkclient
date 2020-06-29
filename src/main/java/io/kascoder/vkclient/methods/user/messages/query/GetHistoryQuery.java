@@ -1,29 +1,31 @@
 package io.kascoder.vkclient.methods.user.messages.query;
 
+import io.kascoder.vkclient.util.annotation.Converter;
 import lombok.*;
 import io.kascoder.vkclient.methods.ObjectField;
 import io.kascoder.vkclient.methods.VkApiQuery;
-import io.kascoder.vkclient.util.annotation.Param;
-import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListRequestParameterConverter;
 
 import java.util.List;
 
 @Value
 @Builder
 public class GetHistoryQuery implements VkApiQuery {
-    @Param(name = "peer_id")
+    @RequestParameter(name = "peer_id")
     int peerId;
-    @Param(name = "offset")
-    private final int offset;
-    @Param(name = "count")
-    @Builder.Default private final int count = 20; // can not be more than 200
-    @Param(name = "extended")
+    @RequestParameter
+    int offset;
+    @RequestParameter
+    @Builder.Default int count = 20; // can not be more than 200
+    @RequestParameter
     boolean extended;
-    @Param(name = "start_message_id")
+    @RequestParameter(name = "start_message_id")
     Integer startMessageId;
-    @Param(name = "rev")
+    @RequestParameter
     @Builder.Default Integer rev = 0;
-    @Param(name = "fields", strategy = ObjectFieldListConversionStrategy.class)
+    @RequestParameter
+    @Converter(ObjectFieldListRequestParameterConverter.class)
     List<ObjectField> fields;
 }
 

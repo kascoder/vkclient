@@ -3,9 +3,10 @@ package io.kascoder.vkclient.methods.user.photos.query;
 import io.kascoder.vkclient.domain.model.FeedType;
 import io.kascoder.vkclient.domain.model.PhotoAlbumType;
 import io.kascoder.vkclient.methods.VkApiQuery;
-import io.kascoder.vkclient.util.annotation.Param;
-import io.kascoder.vkclient.util.conversion.custom.IValueConversionStrategy;
-import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionConversionStrategy;
+import io.kascoder.vkclient.util.annotation.Converter;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
+import io.kascoder.vkclient.util.conversion.custom.IValueRequestParameterConverter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionRequestParameterConverter;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -15,25 +16,28 @@ import java.util.Set;
 @Value
 @Builder
 public class GetQuery implements VkApiQuery {
-    @Param(name = "owner_id")
+    @RequestParameter(name = "owner_id")
     Integer ownerId; // default value is current user id
-    @Param(name = "photo_ids", strategy = ObjectCollectionConversionStrategy.class)
+    @RequestParameter(name = "photo_ids")
+    @Converter(ObjectCollectionRequestParameterConverter.class)
     Set<Integer> photos;
-    @Param(name = "offset")
+    @RequestParameter
     int offset;
-    @Param(name = "count")
+    @RequestParameter
     @Builder.Default int count = 50; // max value is 1000
-    @Param(name = "extended")
+    @RequestParameter
     boolean extended;
-    @Param(name = "rev")
+    @RequestParameter(name = "rev")
     boolean reverse;
-    @Param(name = "photo_sizes")
+    @RequestParameter(name = "photo_sizes")
     boolean photoSizes;
-    @Param(name = "feed_type", strategy = IValueConversionStrategy.class)
+    @RequestParameter(name = "feed_type")
+    @Converter(IValueRequestParameterConverter.class)
     FeedType feedType;
-    @Param(name = "feed")
+    @RequestParameter
     Integer feed;
     @NonNull
-    @Param(name = "album_id", strategy = IValueConversionStrategy.class)
+    @RequestParameter(name = "album_id")
+    @Converter(IValueRequestParameterConverter.class)
     PhotoAlbumType album;
 }
