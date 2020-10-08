@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Value
 public class VideoID {
-    private String id;
+    String id;
 
     public static VideoID of(Integer ownerId, Integer videoId) {
         return of(new Object[]{ ownerId, videoId });

@@ -1,11 +1,11 @@
 package io.kascoder.vkclient.oauth;
 
+import io.kascoder.vkclient.util.Parameterizable;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import io.kascoder.vkclient.util.Parameterizable;
-import io.kascoder.vkclient.util.annotation.RequestParameter;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OAuth implements Parameterizable {
@@ -23,7 +23,7 @@ public class OAuth implements Parameterizable {
             @RequestParameter(name = "password")
             private final String password;
             @RequestParameter(name = "grant_type")
-            private String grantType = "password";
+            private final String grantType = "password";
         }
     }
 }

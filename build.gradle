@@ -51,7 +51,7 @@ publishing {
                 licenses {
                     license {
                         name = 'Apache License 2.0'
-                        url =  'https://github.com/kascoder/vkclient/blob/master/LICENSE'
+                        url = 'https://github.com/kascoder/vkclient/blob/master/LICENSE'
                         distribution = 'repo'
                     }
                 }
@@ -84,7 +84,7 @@ signing {
 }
 
 javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
+    if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }
 }
