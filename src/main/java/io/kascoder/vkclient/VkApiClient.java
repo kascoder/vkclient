@@ -19,6 +19,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Builder
@@ -41,11 +42,24 @@ public class VkApiClient {
     @Setter
     private Language language;
 
-    public <T> CompletableFuture<T> executeRequest(@NonNull VkApiRequest<T> vkApiRequest) {
+    public <T> T executeRequest(@NonNull VkApiRequest<T> vkApiRequest) {
         return executeRequest(vkApiRequest, language);
     }
 
-    public <T> CompletableFuture<T> executeRequest(@NonNull VkApiRequest<T> vkApiRequest, Language language) {
+    public <T> CompletableFuture<T> executeRequestAsync(@NonNull VkApiRequest<T> vkApiRequest) {
+        return executeRequestAsync(vkApiRequest, language);
+    }
+
+    public <T> T executeRequest(@NonNull VkApiRequest<T> vkApiRequest, Language language) {
+        try {
+            return executeRequestAsync(vkApiRequest, language).get();
+        } catch (InterruptedException | ExecutionException e) {
+            LOGGER.debug("Error during executing request", e);
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public <T> CompletableFuture<T> executeRequestAsync(@NonNull VkApiRequest<T> vkApiRequest, Language language) {
         var method = vkApiRequest.getHttpMethod();
         var vkAPiMethod = vkApiRequest.getMethod();
         var vkApiQuery = vkApiRequest.getVkApiQuery();
