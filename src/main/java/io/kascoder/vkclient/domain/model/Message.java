@@ -25,4 +25,6 @@ public class Message {
     private Integer conversationMessageId;
     @JsonProperty("attachments")
     private List<Attachment> attachments;
+    @JsonProperty("fwd_messages")
+    private List<Message> forwardedMessages;
 }
