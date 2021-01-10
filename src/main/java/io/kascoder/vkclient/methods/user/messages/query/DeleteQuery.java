@@ -1,8 +1,9 @@
 package io.kascoder.vkclient.methods.user.messages.query;
 
 import io.kascoder.vkclient.methods.VkApiQuery;
-import io.kascoder.vkclient.util.annotation.Param;
-import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionConversionStrategy;
+import io.kascoder.vkclient.util.annotation.Converter;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectCollectionRequestParameterConverter;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -12,11 +13,12 @@ import java.util.Set;
 @Value
 @Builder
 public class DeleteQuery implements VkApiQuery {
-    @Param(name = "spam")
+    @RequestParameter
     boolean spam;
-    @Param(name = "delete_for_all")
+    @RequestParameter(name = "delete_for_all")
     boolean deleteForAll;
     @NonNull
-    @Param(name = "message_ids", strategy = ObjectCollectionConversionStrategy.class)
+    @RequestParameter(name = "message_ids")
+    @Converter(ObjectCollectionRequestParameterConverter.class)
     Set<Integer> messageIdSet;
 }

@@ -3,9 +3,10 @@ package io.kascoder.vkclient.methods.user.messages.query;
 import io.kascoder.vkclient.domain.model.AttachmentType;
 import io.kascoder.vkclient.methods.ObjectField;
 import io.kascoder.vkclient.methods.VkApiQuery;
-import io.kascoder.vkclient.util.annotation.Param;
-import io.kascoder.vkclient.util.conversion.custom.IValueConversionStrategy;
-import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListConversionStrategy;
+import io.kascoder.vkclient.util.annotation.Converter;
+import io.kascoder.vkclient.util.annotation.RequestParameter;
+import io.kascoder.vkclient.util.conversion.custom.IValueRequestParameterConverter;
+import io.kascoder.vkclient.util.conversion.custom.ObjectFieldListRequestParameterConverter;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -15,19 +16,21 @@ import java.util.List;
 @Value
 @Builder
 public class GetHistoryAttachmentsQuery implements VkApiQuery {
-    @Param(name = "peer_id")
+    @RequestParameter(name = "peer_id")
     int peerId;
     @NonNull
-    @Param(name = "media_type", strategy = IValueConversionStrategy.class)
+    @RequestParameter(name = "media_type")
+    @Converter(IValueRequestParameterConverter.class)
     @Builder.Default AttachmentType mediaType = AttachmentType.PHOTO;
-    @Param(name = "start_from")
+    @RequestParameter(name = "start_from")
     Integer startFrom;
-    @Param(name = "count")
+    @RequestParameter
     @Builder.Default int count = 30; // max 200
-    @Param(name = "photo_sizes")
+    @RequestParameter(name = "photo_sizes")
     boolean withPhotoSizes;
-    @Param(name = "fields", strategy = ObjectFieldListConversionStrategy.class)
+    @RequestParameter
+    @Converter(ObjectFieldListRequestParameterConverter.class)
     List<ObjectField> fields;
-    @Param(name = "preserve_order")
+    @RequestParameter(name = "preserve_order")
     boolean ordered;
 }

@@ -1,6 +1,6 @@
 package io.kascoder.vkclient.util.conversion.custom;
 
-import io.kascoder.vkclient.util.conversion.ConversionStrategy;
+import io.kascoder.vkclient.util.conversion.RequestParameterConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @RequiredArgsConstructor
-abstract class LocalDateConversionStrategy implements ConversionStrategy<LocalDate> {
+abstract class LocalDateRequestParameterConverter implements RequestParameterConverter<LocalDate> {
     @NonNull
     private final DateTimeFormatter dateTimeFormatter;
 
